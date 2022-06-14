@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { RE_DIGIT } from '../constants';
 import './OtpInput.css';
 
@@ -26,6 +26,30 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
     return items;
   }, [value, valueLength]);
 
+  const inputOnChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number
+  ) => {
+    const target = e.target;
+    const targetValue = target.value;
+
+    if (!RE_DIGIT.test(targetValue)) {
+      return;
+    }
+
+    const newValue =
+      value.substring(0, idx) + targetValue + value.substring(idx + 1);
+
+    onChange(newValue);
+
+    const nextElementSibling =
+      target.nextElementSibling as HTMLInputElement | null;
+
+    if (nextElementSibling) {
+      nextElementSibling.focus();
+    }
+  };
+
   return (
     <div className="otp-group">
       {valueItems.map((digit, idx) => (
@@ -38,6 +62,7 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
           maxLength={valueLength}
           className="otp-input"
           value={digit}
+          onChange={(e) => inputOnChange(e, idx)}
         />
       ))}
     </div>
