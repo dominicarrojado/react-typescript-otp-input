@@ -58,8 +58,13 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
   };
   const inputOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
+    const targetValue = target.value;
 
-    if (e.key !== 'Backspace' || target.value !== '') {
+    // keep the selection range position
+    // if the same digit was typed
+    target.setSelectionRange(0, targetValue.length);
+
+    if (e.key !== 'Backspace' || targetValue !== '') {
       return;
     }
 
@@ -69,6 +74,11 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
     if (previousElementSibling) {
       previousElementSibling.focus();
     }
+  };
+  const inputOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { target } = e;
+
+    target.setSelectionRange(0, target.value.length);
   };
 
   return (
@@ -85,6 +95,7 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
           value={digit}
           onChange={(e) => inputOnChange(e, idx)}
           onKeyDown={inputOnKeyDown}
+          onFocus={inputOnFocus}
         />
       ))}
     </div>
