@@ -31,22 +31,43 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
     idx: number
   ) => {
     const target = e.target;
-    const targetValue = target.value;
+    let targetValue = target.value;
+    const isTargetValueDigit = RE_DIGIT.test(targetValue);
 
-    if (!RE_DIGIT.test(targetValue)) {
+    if (!isTargetValueDigit && targetValue !== '') {
       return;
     }
+
+    targetValue = isTargetValueDigit ? targetValue : ' ';
 
     const newValue =
       value.substring(0, idx) + targetValue + value.substring(idx + 1);
 
     onChange(newValue);
 
+    if (!isTargetValueDigit) {
+      return;
+    }
+
     const nextElementSibling =
       target.nextElementSibling as HTMLInputElement | null;
 
     if (nextElementSibling) {
       nextElementSibling.focus();
+    }
+  };
+  const inputOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+
+    if (e.key !== 'Backspace' || target.value !== '') {
+      return;
+    }
+
+    const previousElementSibling =
+      target.previousElementSibling as HTMLInputElement | null;
+
+    if (previousElementSibling) {
+      previousElementSibling.focus();
     }
   };
 
@@ -63,6 +84,7 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
           className="otp-input"
           value={digit}
           onChange={(e) => inputOnChange(e, idx)}
+          onKeyDown={inputOnKeyDown}
         />
       ))}
     </div>
