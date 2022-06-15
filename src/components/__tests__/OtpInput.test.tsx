@@ -56,4 +56,31 @@ describe('<OtpInput />', () => {
       onChange.mockReset();
     });
   });
+
+  it('should NOT allow typing of non-digits', () => {
+    const valueLength = faker.datatype.number({ min: 2, max: 6 });
+    const onChange = jest.fn();
+
+    renderComponent({
+      valueLength,
+      onChange,
+      value: '',
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+
+    expect(inputEls).toHaveLength(valueLength);
+
+    inputEls.forEach((inputEl) => {
+      const nonDigit = faker.random.alpha(1);
+
+      fireEvent.change(inputEl, {
+        target: { value: nonDigit },
+      });
+
+      expect(onChange).not.toBeCalled();
+
+      onChange.mockReset();
+    });
+  });
 });
