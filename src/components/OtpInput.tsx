@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { RE_DIGIT } from '../constants';
 import './OtpInput.css';
 
-type Props = {
+export type Props = {
   value: string;
   valueLength: number;
   onChange: (value: string) => void;
