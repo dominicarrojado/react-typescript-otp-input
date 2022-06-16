@@ -156,4 +156,27 @@ describe('<OtpInput />', () => {
       expect(prevInputEl).not.toHaveFocus();
     }
   });
+
+  it('should handle paste event', () => {
+    const value = faker.datatype.number({ min: 10, max: 999999 }).toString();
+    const valueLength = value.length;
+    const onChange = jest.fn();
+
+    renderComponent({
+      valueLength,
+      onChange,
+      value: '',
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const randomIdx = faker.datatype.number({ min: 0, max: valueLength - 1 });
+    const randomInputEl = inputEls[randomIdx];
+
+    fireEvent.change(randomInputEl, { target: { value } });
+
+    expect(onChange).toBeCalledTimes(1);
+    expect(onChange).toBeCalledWith(value);
+
+    expect(randomInputEl).not.toHaveFocus();
+  });
 });
