@@ -157,7 +157,7 @@ describe('<OtpInput />', () => {
     }
   });
 
-  it('should handle paste event', () => {
+  it('should allow pasting of digits', () => {
     const value = faker.datatype.number({ min: 10, max: 999999 }).toString();
     const valueLength = value.length;
     const onChange = jest.fn();
@@ -178,5 +178,51 @@ describe('<OtpInput />', () => {
     expect(onChange).toBeCalledWith(value);
 
     expect(randomInputEl).not.toHaveFocus();
+  });
+
+  it('should focus to next element on right/down key', () => {
+    renderComponent({
+      value: '',
+      valueLength: 3,
+      onChange: jest.fn(),
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const firstInputEl = inputEls[0];
+
+    fireEvent.keyDown(firstInputEl, { key: 'ArrowRight' });
+
+    const secondInputEl = inputEls[1];
+
+    expect(secondInputEl).toHaveFocus();
+
+    fireEvent.keyDown(secondInputEl, { key: 'ArrowDown' });
+
+    const thirdInputEl = inputEls[2];
+
+    expect(thirdInputEl).toHaveFocus();
+  });
+
+  it('should focus to next element on left/up key', () => {
+    renderComponent({
+      value: '',
+      valueLength: 3,
+      onChange: jest.fn(),
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const thirdInputEl = inputEls[2];
+
+    fireEvent.keyDown(thirdInputEl, { key: 'ArrowLeft' });
+
+    const secondInputEl = inputEls[1];
+
+    expect(secondInputEl).toHaveFocus();
+
+    fireEvent.keyDown(secondInputEl, { key: 'ArrowUp' });
+
+    const firstInputEl = inputEls[0];
+
+    expect(firstInputEl).toHaveFocus();
   });
 });

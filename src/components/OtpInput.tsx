@@ -56,9 +56,7 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
 
     targetValue = isTargetValueDigit ? targetValue : ' ';
 
-    const targetValueLength = targetValue.length;
-
-    if (targetValueLength === 1) {
+    if (targetValue.length === 1) {
       const newValue =
         value.substring(0, idx) + targetValue + value.substring(idx + 1);
 
@@ -69,7 +67,7 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
       }
 
       focusToNextInput(target);
-    } else if (targetValueLength === valueLength) {
+    } else {
       onChange(targetValue);
 
       target.blur();
