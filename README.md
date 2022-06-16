@@ -1,6 +1,6 @@
 # React TypeScript OTP Input
 
-[![CI/CD](https://github.com/dominicarrojado/react-typescript-otp-input/actions/workflows/ci.yml/badge.svg)](https://github.com/dominicarrojado/react-typescript-otp-input/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/dominicarrojado/react-typescript-otp-input/actions/workflows/ci.yml/badge.svg)](https://github.com/dominicarrojado/react-typescript-otp-input/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/dominicarrojado/react-typescript-otp-input/branch/main/graph/badge.svg?token=KAK12QOMHU)](https://codecov.io/gh/dominicarrojado/react-typescript-otp-input)
 
 An OTP (one-time password) or OTC (one-time code) input component bootstrapped with [Create React App](https://github.com/facebook/create-react-app) + [TypeScript](https://www.typescriptlang.org/).
 
