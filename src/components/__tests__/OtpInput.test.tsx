@@ -126,4 +126,34 @@ describe('<OtpInput />', () => {
       onChange.mockReset();
     }
   });
+
+  it('should allow deleting of digits (do NOT focus on previous element)', () => {
+    const value = faker.datatype.number({ min: 10, max: 999999 }).toString();
+    const valueArray = value.split('');
+    const valueLength = value.length;
+    const lastIdx = valueLength - 1;
+
+    renderComponent({
+      value,
+      valueLength,
+      onChange: jest.fn(),
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+
+    expect(inputEls).toHaveLength(valueLength);
+
+    for (let idx = lastIdx; idx > 0; idx--) {
+      const inputEl = inputEls[idx];
+
+      fireEvent.keyDown(inputEl, {
+        key: 'Backspace',
+        target: { value: valueArray[idx] },
+      });
+
+      const prevInputEl = inputEls[idx - 1];
+
+      expect(prevInputEl).not.toHaveFocus();
+    }
+  });
 });
