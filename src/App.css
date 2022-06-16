@@ -4,3 +4,16 @@
   margin: 0 auto;
   padding: 20px 15px;
 }
+
+.footer {
+  padding: 60px 0 30px;
+}
+
+.footer a {
+  color: #555555;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+  color: #000000;
+}
