@@ -157,7 +157,7 @@ describe('<OtpInput />', () => {
     }
   });
 
-  it('should allow pasting of digits', () => {
+  it('should allow pasting of digits (same length as valueLength)', () => {
     const value = faker.datatype.number({ min: 10, max: 999999 }).toString();
     const valueLength = value.length;
     const onChange = jest.fn();
@@ -178,6 +178,26 @@ describe('<OtpInput />', () => {
     expect(onChange).toBeCalledWith(value);
 
     expect(randomInputEl).not.toHaveFocus();
+  });
+
+  it('should NOT allow pasting of digits (less than valueLength)', () => {
+    const value = faker.datatype.number({ min: 10, max: 99999 }).toString();
+    const valueLength = faker.datatype.number({ min: 6, max: 10 });
+    const onChange = jest.fn();
+
+    renderComponent({
+      valueLength,
+      onChange,
+      value: '',
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const randomIdx = faker.datatype.number({ min: 0, max: valueLength - 1 });
+    const randomInputEl = inputEls[randomIdx];
+
+    fireEvent.change(randomInputEl, { target: { value } });
+
+    expect(onChange).not.toBeCalled();
   });
 
   it('should focus to next element on right/down key', () => {
