@@ -23,7 +23,7 @@ yarn install
 4. Run the development server:
 
 ```bash
-yarn dev
+yarn start
 ```
 
 5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
