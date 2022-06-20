@@ -46,4 +46,4 @@ yarn build
 
 ## Learn
 
-Learn how to build this OTP input [here](https://dominicarrojado.com/posts/how-to-create-your-own-swiper-in-react-and-typescript-with-tests-part-1/).
+Learn how to build this OTP input [here](https://dominicarrojado.com/posts/how-to-create-your-own-otp-input-in-react-and-typescript-with-tests-part-1/).
