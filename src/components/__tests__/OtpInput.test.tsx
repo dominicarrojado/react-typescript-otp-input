@@ -157,6 +157,32 @@ describe('<OtpInput />', () => {
     }
   });
 
+  it('should NOT allow deleting of digits in the middle', () => {
+    const value = faker.datatype
+      .number({ min: 100000, max: 999999 })
+      .toString();
+    const valueLength = value.length;
+    const onChange = jest.fn();
+
+    renderComponent({
+      value,
+      valueLength,
+      onChange,
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const thirdInputEl = inputEls[2];
+    const target = { value: '' };
+
+    fireEvent.change(thirdInputEl, { target: { value: '' } });
+    fireEvent.keyDown(thirdInputEl, {
+      target,
+      key: 'Backspace',
+    });
+
+    expect(onChange).not.toBeCalled();
+  });
+
   it('should allow pasting of digits (same length as valueLength)', () => {
     const value = faker.datatype.number({ min: 10, max: 999999 }).toString();
     const valueLength = value.length;

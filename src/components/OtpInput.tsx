@@ -54,6 +54,13 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
       return;
     }
 
+    const nextInputEl = target.nextElementSibling as HTMLInputElement | null;
+
+    // only delete digit if next input element has no value
+    if (!isTargetValueDigit && nextInputEl && nextInputEl.value !== '') {
+      return;
+    }
+
     targetValue = isTargetValueDigit ? targetValue : ' ';
 
     const targetValueLength = targetValue.length;
