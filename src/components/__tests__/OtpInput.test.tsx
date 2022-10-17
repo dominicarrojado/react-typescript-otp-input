@@ -202,7 +202,7 @@ describe('<OtpInput />', () => {
 
   it('should focus to next element on right/down key', () => {
     renderComponent({
-      value: '',
+      value: faker.datatype.number({ min: 100, max: 999 }).toString(),
       valueLength: 3,
       onChange: jest.fn(),
     });
@@ -225,7 +225,7 @@ describe('<OtpInput />', () => {
 
   it('should focus to next element on left/up key', () => {
     renderComponent({
-      value: '',
+      value: faker.datatype.number({ min: 100, max: 999 }).toString(),
       valueLength: 3,
       onChange: jest.fn(),
     });
@@ -240,6 +240,25 @@ describe('<OtpInput />', () => {
     expect(secondInputEl).toHaveFocus();
 
     fireEvent.keyDown(secondInputEl, { key: 'ArrowUp' });
+
+    const firstInputEl = inputEls[0];
+
+    expect(firstInputEl).toHaveFocus();
+  });
+
+  it('should only focus to input if previous input has value', () => {
+    const valueLength = 6;
+
+    renderComponent({
+      valueLength,
+      value: '',
+      onChange: jest.fn(),
+    });
+
+    const inputEls = screen.queryAllByRole('textbox');
+    const lastInputEl = inputEls[valueLength - 1];
+
+    lastInputEl.focus();
 
     const firstInputEl = inputEls[0];
 

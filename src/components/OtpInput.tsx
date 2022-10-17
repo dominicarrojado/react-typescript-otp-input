@@ -104,6 +104,15 @@ export default function OtpInput({ value, valueLength, onChange }: Props) {
   const inputOnFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     const { target } = e;
 
+    // keep focusing back until previous input
+    // element has value
+    const prevInputEl =
+      target.previousElementSibling as HTMLInputElement | null;
+
+    if (prevInputEl && prevInputEl.value === '') {
+      return prevInputEl.focus();
+    }
+
     target.setSelectionRange(0, target.value.length);
   };
 
